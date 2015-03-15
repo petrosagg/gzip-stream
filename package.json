@@ -1,0 +1,17 @@
+{
+  "name": "gzip-stream",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "combined-stream": "0.0.7",
+    "crc-utils": "^0.9.9",
+    "crc32-stream": "git+https://git@github.com/petrosagg/node-crc32-stream.git",
+    "lodash": "^3.5.0"
+  }
+}
