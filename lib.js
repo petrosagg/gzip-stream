@@ -19,7 +19,7 @@
     compress = new DeflateCRC32Stream();
     compress.end = function() {
       return compress.flush(function() {
-        return compress.emit('end');
+        return compress.emit('finish');
       });
     };
     compress.metadata = function() {
