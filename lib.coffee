@@ -13,7 +13,7 @@ exports.createDeflatePart = ->
 	compress = new DeflateCRC32Stream()
 	compress.end = ->
 		compress.flush ->
-			compress.emit('end')
+			compress.emit('finish')
 	compress.metadata = ->
 		crc: @digest()
 		len: @size()
