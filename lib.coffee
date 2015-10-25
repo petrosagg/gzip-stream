@@ -1,5 +1,5 @@
 _ = require 'lodash'
-crcUtils = require 'crc-utils'
+crcUtils = require 'resin-crc-utils'
 CombinedStream = require 'combined-stream'
 { DeflateCRC32Stream } = require 'crc32-stream'
 
