@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib.js",
   "scripts": {
-    "prepublish": "coffee -c lib.coffee",
+    "prepublish": "./node_modules/.bin/coffee -c lib.coffee",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,5 +14,8 @@
     "resin-crc-utils": "^1.0.0",
     "crc32-stream": "~0.3.4",
     "lodash": "^3.5.0"
+  },
+  "devDependencies": {
+    "coffee-script": "~1.10.0"
   }
 }
