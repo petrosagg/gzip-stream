@@ -12,32 +12,32 @@ DEFLATE_END = new Buffer([ 0x03, 0x00 ])
 # Use the logic briefly described here by the author of zlib library:
 # http://stackoverflow.com/questions/14744692/concatenate-multiple-zlib-compressed-data-streams-into-a-single-stream-efficient#comment51865187_14744792
 # to generate deflate streams that can be concatenated into a gzip stream
-exports.createDeflatePart = ->
-	buf = new Buffer(0) # buffer each chunk until we are sure it is not the last one
-	compress = new DeflateCRC32Stream()
-	compress._push = compress.push
-	compress.push = (chunk) ->
+class DeflatePartStream extends DeflateCRC32Stream
+	constructor: ->
+		@buf = new Buffer(0)
+		super
+	push: (chunk) ->
 		if chunk isnt null
 			# got another chunk, previous chunk is safe to send
-			compress._push(buf)
-			buf = chunk
+			super(@buf)
+			@buf = chunk
 		else
 			# got null signalling end of stream
 			# inspect last chunk for 2-byte DEFLATE_END marker and remove it
-			if buf.length >= 2 and buf[-2..].equals(DEFLATE_END)
-				buf = buf[...-2]
-			@_push(buf)
-			@_push(null)
-	compress._end = compress.end
-	compress.end = ->
-		# do a full flush before closing stream (defaults to Z_FULL_FLASH)
+			if @buf.length >= 2 and @buf[-2..].equals(DEFLATE_END)
+				@buf = @buf[...-2]
+			super(@buf)
+			super(null)
+	end: ->
 		@flush =>
-			@_end()
-	compress.metadata = ->
+			super()
+	metadata: ->
 		crc: @digest()
 		len: @size()
 		zLen: @size(true)
-	return compress
+
+exports.createDeflatePart = ->
+	return new DeflatePartStream()
 
 exports.createGzipFromParts = (parts) ->
 	out = CombinedStream.create()
