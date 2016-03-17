@@ -15,12 +15,29 @@
   DEFLATE_END = new Buffer([0x03, 0x00]);
 
   exports.createDeflatePart = function() {
-    var compress;
+    var buf, compress;
+    buf = new Buffer(0);
     compress = new DeflateCRC32Stream();
+    compress._push = compress.push;
+    compress.push = function(chunk) {
+      if (chunk !== null) {
+        compress._push(buf);
+        return buf = chunk;
+      } else {
+        if (buf.slice(-2).equals(DEFLATE_END)) {
+          buf = buf.slice(0, -2);
+        }
+        this._push(buf);
+        return this._push(null);
+      }
+    };
+    compress._end = compress.end;
     compress.end = function() {
-      return compress.flush(function() {
-        return compress.emit('end');
-      });
+      return this.flush((function(_this) {
+        return function() {
+          return _this._end();
+        };
+      })(this));
     };
     compress.metadata = function() {
       return {
