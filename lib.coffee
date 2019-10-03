@@ -8,6 +8,7 @@ GZIP_HEADER = new Buffer([ 0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 
 # DEFLATE ending block
 DEFLATE_END = new Buffer([ 0x03, 0x00 ])
+DEFLATE_END_LENGTH = DEFLATE_END.length
 
 # Use the logic briefly described here by the author of zlib library:
 # http://stackoverflow.com/questions/14744692/concatenate-multiple-zlib-compressed-data-streams-into-a-single-stream-efficient#comment51865187_14744792
@@ -18,14 +19,17 @@ class DeflatePartStream extends DeflateCRC32Stream
 		super
 	push: (chunk) ->
 		if chunk isnt null
-			# got another chunk, previous chunk is safe to send
-			super(@buf)
-			@buf = chunk
+			if chunk.length >= DEFLATE_END_LENGTH
+				# got another large enough chunk, previous chunk is safe to send
+				super(@buf)
+				@buf = chunk
+			else
+				@buf = Buffer.concat([@buf, chunk])
 		else
 			# got null signalling end of stream
-			# inspect last chunk for 2-byte DEFLATE_END marker and remove it
-			if @buf.length >= 2 and @buf[-2..].equals(DEFLATE_END)
-				@buf = @buf[...-2]
+			# inspect last chunk for DEFLATE_END marker and remove it
+			if @buf.length >= DEFLATE_END_LENGTH and @buf[-DEFLATE_END_LENGTH..].equals(DEFLATE_END)
+				@buf = @buf[...-DEFLATE_END_LENGTH]
 			super(@buf)
 			super(null)
 	end: ->

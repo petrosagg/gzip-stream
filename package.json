@@ -4,8 +4,7 @@
   "description": "",
   "main": "lib.js",
   "scripts": {
-    "prepublish": "./node_modules/.bin/coffee -c lib.coffee",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublish": "./node_modules/.bin/coffee -c lib.coffee"
   },
   "author": "",
   "license": "ISC",
