@@ -18,9 +18,12 @@ class DeflatePartStream extends DeflateCRC32Stream
 		super
 	push: (chunk) ->
 		if chunk isnt null
-			# got another chunk, previous chunk is safe to send
-			super(@buf)
-			@buf = chunk
+			if chunk.length >= 2
+				# got another large enough chunk, previous chunk is safe to send
+				super(@buf)
+				@buf = chunk
+			else
+				@buf = Buffer.concat([@buf, chunk])
 		else
 			# got null signalling end of stream
 			# inspect last chunk for 2-byte DEFLATE_END marker and remove it

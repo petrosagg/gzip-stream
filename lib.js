@@ -26,8 +26,12 @@
 
     DeflatePartStream.prototype.push = function(chunk) {
       if (chunk !== null) {
-        DeflatePartStream.__super__.push.call(this, this.buf);
-        return this.buf = chunk;
+        if (chunk.length >= 2) {
+          DeflatePartStream.__super__.push.call(this, this.buf);
+          return this.buf = chunk;
+        } else {
+          return this.buf = Buffer.concat([this.buf, chunk]);
+        }
       } else {
         if (this.buf.length >= 2 && this.buf.slice(-2).equals(DEFLATE_END)) {
           this.buf = this.buf.slice(0, -2);
