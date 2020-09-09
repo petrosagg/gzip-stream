@@ -15,8 +15,8 @@ DEFLATE_END_LENGTH = DEFLATE_END.length
 # to generate deflate streams that can be concatenated into a gzip stream
 class DeflatePartStream extends DeflateCRC32Stream
 	constructor: ->
+		super(arguments...)
 		@buf = new Buffer(0)
-		super
 	push: (chunk) ->
 		if chunk isnt null
 			if chunk.length >= DEFLATE_END_LENGTH
@@ -36,7 +36,7 @@ class DeflatePartStream extends DeflateCRC32Stream
 		@flush =>
 			super()
 	metadata: ->
-		crc: @digest()
+		crc: @digest().readUInt32BE(0)
 		len: @size()
 		zLen: @size(true)
 
