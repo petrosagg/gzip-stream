@@ -4,8 +4,11 @@
   "description": "",
   "main": "lib.js",
   "scripts": {
-    "prepublish": "./node_modules/.bin/coffee -c lib.coffee"
+    "prepare": "./node_modules/.bin/coffee -c lib.coffee"
   },
+  "files": [
+    "lib.js"
+  ],
   "homepage": "https://github.com/balena-io-modules/gzip-stream",
   "repository": {
     "type": "git",
