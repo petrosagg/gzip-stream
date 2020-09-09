@@ -6,6 +6,15 @@
   "scripts": {
     "prepublish": "./node_modules/.bin/coffee -c lib.coffee"
   },
+  "homepage": "https://github.com/balena-io-modules/gzip-stream",
+  "repository": {
+	  "type": "git",
+	  "url": "https://github.com/balena-io-modules/gzip-stream.git"
+  },
+  "bugs": {
+	  "url": "https://github.com/balena-io-modules/gzip-stream/issues"
+  },
+
   "author": "",
   "license": "ISC",
   "dependencies": {
