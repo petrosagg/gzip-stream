@@ -3,11 +3,11 @@ CombinedStream = require 'combined-stream'
 { DeflateCRC32Stream } = require 'crc32-stream'
 
 # gzip header
-GZIP_HEADER = Buffer.from([ 0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff ])
+exports.GZIP_HEADER = GZIP_HEADER = Buffer.from([ 0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff ])
 
 # DEFLATE ending block
-DEFLATE_END = Buffer.from([ 0x03, 0x00 ])
-DEFLATE_END_LENGTH = DEFLATE_END.length
+exports.DEFLATE_END = DEFLATE_END = Buffer.from([ 0x03, 0x00 ])
+exports.DEFLATE_END_LENGTH = DEFLATE_END_LENGTH = DEFLATE_END.length
 
 # Use the logic briefly described here by the author of zlib library:
 # http://stackoverflow.com/questions/14744692/concatenate-multiple-zlib-compressed-data-streams-into-a-single-stream-efficient#comment51865187_14744792
