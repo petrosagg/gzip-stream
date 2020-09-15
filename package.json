@@ -22,7 +22,6 @@
   "dependencies": {
     "combined-stream": "^1.0.8",
     "crc32-stream": "^4.0.0",
-    "lodash": "^4.17.20",
     "resin-crc-utils": "^1.0.3"
   },
   "devDependencies": {

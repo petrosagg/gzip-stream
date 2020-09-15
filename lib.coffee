@@ -1,4 +1,3 @@
-_ = require 'lodash'
 crcUtils = require 'resin-crc-utils'
 CombinedStream = require 'combined-stream'
 { DeflateCRC32Stream } = require 'crc32-stream'
@@ -55,9 +54,9 @@ exports.createGzipFromParts = (parts) ->
 	out.append(crcUtils.crc32_combine_multi(parts).combinedCrc32[0..3])
 	# write length
 	len = Buffer.alloc(4)
-	len.writeUInt32LE(_.sum(_.map(parts, 'len')), 0)
+	len.writeUInt32LE(parts.map((p) -> p.len).reduce((a, b) -> a + b), 0)
 	out.append(len)
 	# calculate compressed size. Add 10 byte header, 2 byte DEFLATE ending block, 8 byte footer
-	out.zLen = _.sum(_.map(parts, 'zLen')) + 20
+	out.zLen = parts.map((p) -> p.zLen).reduce((a, b) -> a + b) + 20
 	# return stream
 	return out
