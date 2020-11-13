@@ -1,4 +1,4 @@
-crcUtils = require 'resin-crc-utils'
+crcUtils = require '@balena/node-crc-utils'
 CombinedStream = require 'combined-stream'
 { DeflateCRC32Stream } = require 'crc32-stream'
 
@@ -51,7 +51,7 @@ exports.createGzipFromParts = (parts) ->
 	# write ending DEFLATE part
 	out.append(DEFLATE_END)
 	# write CRC
-	out.append(crcUtils.crc32_combine_multi(parts).combinedCrc32[0..3])
+	out.append(crcUtils.crc32_combine_multi(parts).combinedCrc32)
 	# write length
 	len = Buffer.alloc(4)
 	len.writeUInt32LE(parts.map((p) -> p.len).reduce((a, b) -> a + b), 0)
