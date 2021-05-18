@@ -32,9 +32,9 @@ exports.createGzipFromParts = (parts) ->
 	out.append(crcUtils.crc32_combine_multi(parts).combinedCrc32[0..3])
 	# write length
 	len = new Buffer(4)
-	len.writeUInt32LE(_.sum(_.pluck(parts, 'len')), 0)
+	len.writeUInt32LE(_.sum(_.map(parts, 'len')), 0)
 	out.append(len)
 	# calculate compressed size. Add 10 byte header, 2 byte DEFLATE ending block, 8 byte footer
-	out.zLen = _.sum(_.pluck(parts, 'zLen')) + 20
+	out.zLen = _.sum(_.map(parts, 'zLen')) + 20
 	# return stream
 	return out

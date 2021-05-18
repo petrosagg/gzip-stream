@@ -12,6 +12,6 @@
     "combined-stream": "0.0.7",
     "crc-utils": "^0.9.9",
     "crc32-stream": "git+https://git@github.com/petrosagg/node-crc32-stream.git",
-    "lodash": "^3.5.0"
+    "lodash": "^4"
   }
 }

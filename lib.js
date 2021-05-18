@@ -43,9 +43,9 @@
     out.append(DEFLATE_END);
     out.append(crcUtils.crc32_combine_multi(parts).combinedCrc32.slice(0, 4));
     len = new Buffer(4);
-    len.writeUInt32LE(_.sum(_.pluck(parts, 'len')), 0);
+    len.writeUInt32LE(_.sum(_.map(parts, 'len')), 0);
     out.append(len);
-    out.zLen = _.sum(_.pluck(parts, 'zLen')) + 20;
+    out.zLen = _.sum(_.map(parts, 'zLen')) + 20;
     return out;
   };
 
